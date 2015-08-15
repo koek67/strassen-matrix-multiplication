@@ -133,7 +133,7 @@ public class Matrix {
         return b;
     }
 
-    public static double dotProduct(ArrayList<Double> v1, ArrayList<Double> v2) {
+    private static double dotProduct(ArrayList<Double> v1, ArrayList<Double> v2) {
         double dotProd = 0;
         if (v1.size() != v2.size()) {
             throw new IllegalArgumentException("mismatched input lengths");
@@ -201,16 +201,6 @@ public class Matrix {
             }
         }
         return true;
-    }
-
-    public void randomize(int limit) {
-        Random numGen = new Random();
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                double randNum = Math.random() * limit;
-                set(i, j, randNum);
-            }
-        }
     }
 
 }
