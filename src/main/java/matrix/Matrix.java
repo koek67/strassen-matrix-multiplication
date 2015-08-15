@@ -1,10 +1,6 @@
 package main.java.matrix;
 
-import java.lang.Double;
-import java.lang.IllegalArgumentException;
-import java.util.*;
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * functions to implement:
@@ -34,88 +30,9 @@ public class Matrix {
         init();
     }
 
-    public String toStringInt() {
-        String representation = "";
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                representation += ((int) get(i,j)) % 2;
-            }
-            representation += "\n";
-        }
-        return representation;
-    }
-
-    /**
-     * helper method for no-args constructor
-     */
-    private void init() {
-        for (ArrayList<Double> a : backing) {
-            a = new ArrayList<Double>();
-        }
-    }
-
-    // BEGIN GETTERS/SETTERS
-    public int getRows(){return rows;}
-    public int getCols(){return cols;}
-    public ArrayList<Double> getRow(int x) {
-        return backing.get(x);
-    }
-    public ArrayList<Double> getCol(int x) {
-        ArrayList<Double> nums = new ArrayList<Double>();
-        for (int y = 0; y < rows; y++) {
-            nums.add(backing.get(y).get(x));
-        }
-        return nums;
-    }
-
-    public double get(int i, int j) {
-        if (!isValid(i, j)) {
-            throw new IllegalArgumentException("get out of bounds: " + i + ", " + j);
-        }
-        return backing.get(i).get(j).doubleValue();
-    }
-
-    public void set(int i, int j, double value) {
-        if (!isValid(i, j)) {
-            throw new IllegalArgumentException("set out of bounds: " + i + ", " + j);
-        }
-        backing.get(i).set(j, value);
-    }
-
-    public String toString() {
-        String representation = "";
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                representation += String.format("%03.6f\t", get(i,j));
-            }
-            representation += "\n";
-        }
-        return representation;
-    }
-
-    // END GETTERS/SETTERS
-
-    /**
-     * @return true if (i, j) is in bounds
-     */
-    public boolean isValid(int i, int j) {
-        return (i >= 0 && i < rows) && (j >= 0 && j < cols);
-    }
-
-    /**
-     * will print out the 2D arraylist to the console
-     */
-    public void print() {
-        for (ArrayList<Double> a : backing) {
-            System.out.println(a);
-        }
-    }
-
-    // START THE GOOD STUFF
-
     /**
      * Will add this matrix to other.
-     * This matrix will be modified to be the sum of the two matricies
+     * This matrix will be modified to be the sum of the two matrices
      */
     public static Matrix add(Matrix a, Matrix other) {
         // check the sizes
@@ -144,7 +61,7 @@ public class Matrix {
         return dotProd;
     }
 
-    public static Matrix mult(Matrix m1, Matrix m2) {
+    public static Matrix multiply(Matrix m1, Matrix m2) {
         if (m1.cols != m2.rows) {
             throw new IllegalArgumentException("Matrices of improper dims");
         }
@@ -177,18 +94,6 @@ public class Matrix {
         return b;
     }
 
-    /**
-     * Modifies values to be a hilbert matrix.
-     */
-    public void makeHilbert() {
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                double value = 1.0 / ((i + 1.0) + (j + 1.0) - 1);
-                set(i, j, value);
-            }
-        }
-    }
-
     public static boolean equals(Matrix a, Matrix b) {
         if (a.getRows() != b.getRows() || a.getCols() != b.getCols()) {
             return false;
@@ -201,6 +106,82 @@ public class Matrix {
             }
         }
         return true;
+    }
+
+    /**
+     * helper method for no-args constructor
+     */
+    private void init() {
+        for (ArrayList<Double> a : backing) {
+            a = new ArrayList<Double>();
+        }
+    }
+
+    // BEGIN GETTERS/SETTERS
+    public int getRows() {
+        return rows;
+    }
+
+    public int getCols() {
+        return cols;
+
+    }
+
+    // END GETTERS/SETTERS
+
+    public ArrayList<Double> getRow(int x) {
+        return backing.get(x);
+    }
+
+    public ArrayList<Double> getCol(int x) {
+        ArrayList<Double> nums = new ArrayList<Double>();
+        for (int y = 0; y < rows; y++) {
+            nums.add(backing.get(y).get(x));
+        }
+        return nums;
+    }
+
+    // START THE GOOD STUFF
+
+    public double get(int i, int j) {
+        if (!isValid(i, j)) {
+            throw new IllegalArgumentException("get out of bounds: " + i + ", " + j);
+        }
+        return backing.get(i).get(j);
+    }
+
+    public void set(int i, int j, double value) {
+        if (!isValid(i, j)) {
+            throw new IllegalArgumentException("set out of bounds: " + i + ", " + j);
+        }
+        backing.get(i).set(j, value);
+    }
+
+    public String toFormattedString() {
+        String representation = "";
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                representation += String.format("%03.6f\t", get(i,j));
+            }
+            representation += "\n";
+        }
+        return representation;
+    }
+
+    /**
+     * @return true if (i, j) is in bounds
+     */
+    public boolean isValid(int i, int j) {
+        return (i >= 0 && i < rows) && (j >= 0 && j < cols);
+    }
+
+    /**
+     * will print out the 2D ArrayList to the console
+     */
+    public void print() {
+        for (ArrayList<Double> a : backing) {
+            System.out.println(a);
+        }
     }
 
 }
