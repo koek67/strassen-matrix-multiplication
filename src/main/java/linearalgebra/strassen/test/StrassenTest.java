@@ -11,12 +11,13 @@ import static org.junit.Assert.*;
 
 public class StrassenTest {
 
-    private MatrixBuilder builder;
-    private MatrixOperator operator;
+    private int dimension;
+    private int numTries;
 
     @org.junit.Before
     public void setUp() throws Exception {
-
+        dimension = 4;
+        numTries = 10000;
     }
 
     @org.junit.Test
@@ -26,24 +27,26 @@ public class StrassenTest {
 
         Stopwatch watch = new Stopwatch();
         double avgDiff = 0;
-        int dim = 16;
-        int numTries = 10000;
+        double avgReg = 0;
+        double avgStrassen = 0;
         for (int i = 0; i < numTries; i++) {
             // create two 4x4 matrices
-            Matrix a = MatrixBuilder.buildRandomMatrix(dim, dim, 500);
-            Matrix b = MatrixBuilder.buildRandomMatrix(dim, dim, 500);
+            Matrix a = MatrixBuilder.buildRandomMatrix(dimension, dimension, 500);
+            Matrix b = MatrixBuilder.buildRandomMatrix(dimension, dimension, 500);
 
             watch.start();
             Matrix reg = MatrixOperator.multiply(a, b);
             watch.stop();
 
             double regElapsedTime = watch.elapsedTime();
+            avgReg += regElapsedTime;
 
             watch.start();
-            Matrix strassen = Strassen.mult(a, b, dim);
+            Matrix strassen = Strassen.mult(a, b, dimension);
             watch.stop();
 
             double strassenElapsedTime = watch.elapsedTime();
+            avgStrassen += strassenElapsedTime;
 
             double diff = strassenElapsedTime - regElapsedTime;
             avgDiff += diff;
@@ -51,7 +54,8 @@ public class StrassenTest {
             Assert.assertEquals("Do not match", reg.print(), strassen.print());
         }
 
-        System.out.println("Average difference: " + avgDiff / numTries);
+        System.out.println("Average time for strassen: " + avgStrassen / numTries);
+        System.out.println("Average time for regular:  " + avgReg / numTries);
     }
 
     @org.junit.After
