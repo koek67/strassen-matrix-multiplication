@@ -16,7 +16,7 @@ public class StrassenTest {
 
     @org.junit.Before
     public void setUp() throws Exception {
-        dimension = 4;
+        dimension = 8;
         numTries = 10000;
     }
 
@@ -24,7 +24,9 @@ public class StrassenTest {
     public void test() {
         // run 100 multiplications and compare times for regular
         // and strassen multiplication
-
+        System.out.println("Test info: ");
+        System.out.println("Number of iterations: " + numTries);
+        System.out.println("Dimensions of matricies: " + dimension + "x" + dimension);
         Stopwatch watch = new Stopwatch();
         double avgDiff = 0;
         double avgReg = 0;
@@ -53,9 +55,10 @@ public class StrassenTest {
 
             Assert.assertEquals("Do not match", reg.print(), strassen.print());
         }
-
-        System.out.println("Average time for strassen: " + avgStrassen / numTries);
-        System.out.println("Average time for regular:  " + avgReg / numTries);
+        System.out.println("----------");
+        System.out.println("----------");
+        System.out.println("Average time for strassen: " + avgStrassen / numTries + " ms");
+        System.out.println("Average time for regular:  " + avgReg / numTries + " ms");
     }
 
     @org.junit.After
