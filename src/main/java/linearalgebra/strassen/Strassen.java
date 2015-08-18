@@ -1,6 +1,7 @@
-package main.java.linearalgebra;
+package main.java.linearalgebra.strassen;
 
 import main.java.matrix.Matrix;
+import main.java.matrix.MatrixBuilder;
 import main.java.matrix.MatrixOperator;
 
 /**
@@ -70,18 +71,18 @@ public class Strassen {
             }
         }
 
-        Matrix p_1 = mult( Matrix.subtract(a_1_2, a_2_2),       Matrix.add(b_2_1, b_2_2), n/2 );
-        Matrix p_2 = mult( Matrix.add(a_1_1, a_2_2),            Matrix.add(b_1_1, b_2_2), n/2);
-        Matrix p_3 = mult( Matrix.subtract(a_1_1, a_2_1),       Matrix.add(b_1_1, b_1_2), n/2 );
-        Matrix p_4 = mult( Matrix.add(a_1_1, a_1_2),            b_2_2, n/2);
-        Matrix p_5 = mult( a_1_1,                               Matrix.subtract(b_1_2, b_2_2), n/2);
-        Matrix p_6 = mult( a_2_2,                               Matrix.subtract(b_2_1, b_1_1), n/2);
-        Matrix p_7 = mult( Matrix.add(a_2_1, a_2_2),            b_1_1, n/2);
+        Matrix p_1 = mult( MatrixOperator.subtract(a_1_2, a_2_2),       MatrixOperator.add(b_2_1, b_2_2), n/2 );
+        Matrix p_2 = mult( MatrixOperator.add(a_1_1, a_2_2),            MatrixOperator.add(b_1_1, b_2_2), n/2);
+        Matrix p_3 = mult( MatrixOperator.subtract(a_1_1, a_2_1),       MatrixOperator.add(b_1_1, b_1_2), n/2 );
+        Matrix p_4 = mult( MatrixOperator.add(a_1_1, a_1_2),            b_2_2, n/2);
+        Matrix p_5 = mult( a_1_1,                               MatrixOperator.subtract(b_1_2, b_2_2), n/2);
+        Matrix p_6 = mult( a_2_2,                               MatrixOperator.subtract(b_2_1, b_1_1), n/2);
+        Matrix p_7 = mult( MatrixOperator.add(a_2_1, a_2_2),            b_1_1, n/2);
 
-        Matrix c_1_1 = Matrix.add(Matrix.subtract(Matrix.add(p_1, p_2), p_4), p_6);
-        Matrix c_1_2 = Matrix.add(p_4, p_5);
-        Matrix c_2_1 = Matrix.add(p_6, p_7);
-        Matrix c_2_2 = Matrix.subtract( Matrix.add( Matrix.subtract(p_2, p_3) , p_5) , p_7);
+        Matrix c_1_1 = MatrixOperator.add(MatrixOperator.subtract(MatrixOperator.add(p_1, p_2), p_4), p_6);
+        Matrix c_1_2 = MatrixOperator.add(p_4, p_5);
+        Matrix c_2_1 = MatrixOperator.add(p_6, p_7);
+        Matrix c_2_2 = MatrixOperator.subtract( MatrixOperator.add( MatrixOperator.subtract(p_2, p_3) , p_5) , p_7);
 
         // combine the quadrants
         Matrix c = new Matrix(n, n);

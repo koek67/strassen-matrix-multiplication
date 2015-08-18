@@ -1,5 +1,7 @@
 package main.java.matrix;
 
+import main.java.linearalgebra.strassen.Strassen;
+
 import java.util.ArrayList;
 
 /**
@@ -27,6 +29,8 @@ public class Matrix {
 
     public Matrix(int r, int c) {
         this.backing = new ArrayList<ArrayList<Double>>();
+        this.rows = r;
+        this.cols = c;
         init();
     }
 
@@ -112,6 +116,12 @@ public class Matrix {
      * helper method for no-args constructor
      */
     private void init() {
+        for (int i = 0; i < rows; i++) {
+            backing.add(new ArrayList<Double>());
+            for (int j = 0; j < cols; j++) {
+                backing.get(i).add(0.0);
+            }
+        }
         for (ArrayList<Double> a : backing) {
             a = new ArrayList<Double>();
         }
@@ -157,11 +167,42 @@ public class Matrix {
         backing.get(i).set(j, value);
     }
 
+    public boolean equals(Matrix a) {
+        if (a.getCols() != cols || a.getRows() != rows){
+            return false;
+        }
+
+        if (!super.equals(a)) {
+            return false;
+        }
+        else {
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
+                    if (get(i, j) != a.get(i, j)) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
     public String toFormattedString() {
         String representation = "";
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 representation += String.format("%03.6f\t", get(i,j));
+            }
+            representation += "\n";
+        }
+        return representation;
+    }
+
+    public String toString() {
+        String representation = "";
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                representation += get(i,j);
             }
             representation += "\n";
         }
@@ -178,10 +219,13 @@ public class Matrix {
     /**
      * will print out the 2D ArrayList to the console
      */
-    public void print() {
+    public String print() {
+        String s = "";
         for (ArrayList<Double> a : backing) {
-            System.out.println(a);
+            s += a;
+            s += "\n";
         }
+        return s;
     }
 
 }
